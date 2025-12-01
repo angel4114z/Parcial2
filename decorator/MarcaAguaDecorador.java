@@ -1,5 +1,7 @@
 package decorator;
+import config.ConfiguracionSistema;
 import product.Reporte;
+
 public class MarcaAguaDecorador extends ReporteDecorator {
 
     public MarcaAguaDecorador(Reporte reporte) {
@@ -8,8 +10,16 @@ public class MarcaAguaDecorador extends ReporteDecorator {
 
     @Override
     public void generarContenido(String contenido) {
-        String contenidoConMarcaAgua = contenido + " [Marca de Agua]";
-        reporte.generarContenido(contenidoConMarcaAgua);
+        ConfiguracionSistema config = ConfiguracionSistema.getInstancia();
+        
+        if (config.isMostrarMarcaAgua()) {
+            System.out.println("Marca de agua habilitada en configuración");
+            String contenidoConMarcaAgua = contenido + " [Marca de Agua]";
+            reporte.generarContenido(contenidoConMarcaAgua);
+        } else {
+            System.out.println("Marca de agua deshabilitada en configuración");
+            reporte.generarContenido(contenido);
+        }
     }
     
 }
